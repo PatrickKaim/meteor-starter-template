@@ -15,7 +15,6 @@ export default {
     setup() {
         const navigation = [
             { name: 'Profile', route: 'Personal Profile', icon: UserCircleIcon, current: true },
-            { name: 'Account', route: 'Personal Account', icon: CogIcon, current: false },
             { name: 'Plan & Billing', route: 'Plan and Billing', icon: CreditCardIcon, current: false },
         ]
         return {

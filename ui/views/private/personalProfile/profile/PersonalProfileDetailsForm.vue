@@ -8,14 +8,17 @@
                 </div>
 
                 <div class="mt-6 grid grid-cols-4 gap-6">
-                    <BaseInput :model-value="user.profile.givenName" label="Given name" id="givenName" type="text" autocomplete="given-name" div-class="col-span-4 sm:col-span-2" />
-                    <BaseInput :model-value="user.profile.familyName" label="Family name" id="familyName" type="text" autocomplete="family-name" div-class="col-span-4 sm:col-span-2" />
-                    <BaseInput :model-value="user.profile.username" label="Username" id="username" type="text" autocomplete="username" div-class="col-span-4 sm:col-span-2" />
-                    <BaseInput :model-value="user.emails[0].address" label="Email address" id="email-address" type="email" autocomplete="email" div-class="col-span-4 sm:col-span-2" />
-                    <BaseInput :model-value="personal.location" label="ZIP / Postal code" id="postal-code" type="text" autocomplete="postal-code" div-class="col-span-4 sm:col-span-2" />
-                    <BaseDropdown label="Country" id="country" type="text" autocomplete="country-name" :options="countryOptions" div-class="col-span-4 sm:col-span-2" />
-                    <BaseInput :model-value="personal.location.street" label="Street address" id="street-address" type="text" autocomplete="street-address" div-class="col-span-4 sm:col-span-2" />
-                    <BaseInput :model-value="personal.location.city" label="City / Town" id="address-level2" type="text" autocomplete="address-level2" div-class="col-span-4 sm:col-span-2" />
+                    <BaseInput :model-value="givenName" label="Given name" id="givenName" type="text" autocomplete="given-name" div-class="col-span-4 sm:col-span-2" />
+                    <BaseInput :model-value="familyName" label="Family name" id="familyName" type="text" autocomplete="family-name" div-class="col-span-4 sm:col-span-2" />
+                    <BaseInput :model-value="username" label="Username" id="username" type="text" autocomplete="username" div-class="col-span-4 sm:col-span-2" />
+                    <BaseInput :model-value="emailAddress" label="Email address" id="email-address" type="email" autocomplete="email" div-class="col-span-4 sm:col-span-2" />
+                    <BaseInput :model-value="postalCode" label="ZIP / Postal code" id="postal-code" type="text" autocomplete="postal-code" div-class="col-span-4 sm:col-span-2" />
+                    <!-- Todo: create a working dropdown component, because all options thus far result in an error
+                    <BaseDropdown :model-value="country" label="Country" id="country" type="text" autocomplete="country-name" :options="countryOptions" div-class="col-span-4 sm:col-span-2" />
+                    -->
+                    <BaseInput :model-value="country" label="Country" id="country" type="text" autocomplete="country-code" div-class="col-span-4 sm:col-span-2" />
+                    <BaseInput :model-value="address" label="Street address" id="street-address" type="text" autocomplete="street-address" div-class="col-span-4 sm:col-span-2" />
+                    <BaseInput :model-value="city" label="City / Town" id="address-level2" type="text" autocomplete="address-level2" div-class="col-span-4 sm:col-span-2" />
                     <BaseAvatarUploader label="Profile Image / Avatar" id="avatarUploader" div-class="col-span-8 sm:col-span-4 pl-3" />
                 </div>
             </div>
@@ -41,6 +44,64 @@ export default {
         BaseDropdown,
         BaseInput
     },
+    computed: {
+        givenName() {
+            if (this.user) {
+                return this.user.profile.givenName;
+            } else {
+                return '';
+            }
+        },
+        familyName() {
+            if (this.user) {
+                return this.user.profile.familyName;
+            } else {
+                return '';
+            }
+        },
+        username() {
+            if (this.user) {
+                return this.user.profile.username;
+            } else {
+                return '';
+            }
+        },
+        emailAddress() {
+            if (this.user) {
+                return this.user.emails[0].address;
+            } else {
+                return '';
+            }
+        },
+        address() {
+            if (this.personal !== '') {
+                return this.personal.location.address;
+            } else {
+                return '';
+            }
+        },
+        postalCode() {
+            if (this.personal !== '') {
+                return this.personal.location.postalCode;
+            } else {
+                return '';
+            }
+        },
+        city() {
+            if (this.personal !== '') {
+                return this.personal.location.city;
+            } else {
+                return '';
+            }
+        },
+        country() {
+            if (this.personal !== '') {
+                return this.personal.location.country;
+            } else {
+                return 'NL';
+            }
+        }
+    },
     methods: {
         processForm(event) {
             this.isProcessing = true
@@ -52,7 +113,12 @@ export default {
             return Meteor.user();
         },
         personal() {
-            return PersonalCollection.find();
+            let pc = PersonalCollection.find();
+            if (pc.count() > 0) {
+                return pc.fetch();
+            } else {
+                return '';
+            }
         }
     },
     setup() {
@@ -61,14 +127,8 @@ export default {
             {label: 'Netherlands', value: 'NL'},
             {label: 'Belgium', value: 'BE'}
         ]);
-        const givenName = ref('');
-        const familyName = ref('');
-        const username = ref('');
-        const email = ref('');
-        const postalCode = ref('');
-        const country = ref('');
         return {
-            isProcessing, countryOptions, givenName, familyName, username, email, postalCode, country
+            isProcessing, countryOptions
         }
     },
     created() {
