@@ -2,7 +2,7 @@ import { Meteor } from 'meteor/meteor'
 import { createApp } from 'vue'
 import { VueMeteor } from 'vue-meteor-tracker'
 import {createI18n} from "vue-i18n";
-import messages from '@intlify/vite-plugin-vue-i18n'
+import messages from '@intlify/vite-plugin-vue-i18n/messages'
 import App from './App.vue'
 import { router } from './router'
 
