@@ -12,11 +12,13 @@
     "@babel/runtime": "^7.17.9",
     "@headlessui/vue": "^1.7.7",
     "@heroicons/vue": "^2.0.13",
+    "@intlify/vite-plugin-vue-i18n": "^7.0.0",
     "@tailwindcss/forms": "^0.5.3",
     "browser-image-resizer": "^2.4.1",
     "meteor-node-stubs": "^1.2.1",
     "simpl-schema": "^1.13.1",
     "vue": "^3.2.45",
+    "vue-i18n": "^9.2.2",
     "vue-meteor-tracker": "^3.0.0-beta.7",
     "vue-router": "^4.1.6"
   },

@@ -3,6 +3,7 @@
     <div class="px-4 py-4 sm:px-0">
         <div class="h-96 rounded-lg border-4 border-dashed border-gray-200">
             <h1 class="text-3xl font-bold m-6">Welcome {{ username }}!</h1>
+            <p>{{ $t('hello') }}</p>
             <button @click="CreateNotification" class="bg-green-600 text-white border-2 rounded-md p-3 m-6">Create Notification</button>
         </div>
     </div>
